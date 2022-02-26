@@ -54,6 +54,10 @@ app.get("/say", (req, res) => {
     }
 });
 
+app.get("/", (req, res) => {
+    res.send('Welcome! Please find API documentation- http://68.183.123.32:3000/swaggerdoc');
+});
+
 /**
 * @swagger
 * paths:
