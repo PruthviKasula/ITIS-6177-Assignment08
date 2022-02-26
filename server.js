@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-
+const axios = require('axios');
 const mariadb = require('mariadb');
 const pool = mariadb.createPool({
     host: 'localhost',
@@ -37,6 +37,22 @@ const sanitizeNvalidate = [check('company_id').exists().isInt().withMessage('Id 
 module.exports = pool;
 app.use(express.json());
 app.set('json spaces', 2);
+
+app.get("/say", (req, res) => {
+    try {
+        const str = req.query.keyword;
+        if (str === undefined) {
+            throw (str);
+        }
+        axios.get('https://lnge8qm4ah.execute-api.us-east-1.amazonaws.com/prod?keyword=' + str)
+            .then((resp) => {
+                res.send(resp.data);
+            });
+    } catch (ex) {
+        res.status(400).send(res.statusCode + ':Keyword not defined')
+        throw ex;
+    }
+});
 
 /**
 * @swagger
