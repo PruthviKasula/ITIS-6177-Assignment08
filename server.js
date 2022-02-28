@@ -38,6 +38,28 @@ module.exports = pool;
 app.use(express.json());
 app.set('json spaces', 2);
 
+/**                                                                                              
+* @swagger                                                                                       
+* paths:                                                                                         
+*  /say:                                                                                         
+*   get:                                                                                         
+*    tags:                                                                                       
+*      - "AWS API"                                                                              
+*    description: Pruthvi Kasula says Hello                                                      
+*    produces:
+*      - application/json
+*    parameters:                                                                                 
+*     - name: keyword                                                                            
+*       in: query                                                                                
+*       type: string                                                                             
+*       required: true                                                                           
+*    responses:                                                                                  
+*      200:                                                                                      
+*         description: Success operation!                                                        
+*      400:                                                                                      
+*         description: Error!                                                                    
+*/
+
 app.get("/say", (req, res) => {
     try {
         const str = req.query.keyword;
@@ -46,7 +68,7 @@ app.get("/say", (req, res) => {
         }
         axios.get('https://lnge8qm4ah.execute-api.us-east-1.amazonaws.com/prod?keyword=' + str)
             .then((resp) => {
-                res.send(resp.data);
+                res.json(resp.data);
             });
     } catch (ex) {
         res.status(400).send(res.statusCode + ':Keyword not defined')
